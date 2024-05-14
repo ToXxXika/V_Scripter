@@ -135,15 +135,12 @@ def SortingFilesInCorrespondingFolderByNamesAndTypes(organized_path):
             base_folder_path = os.path.join(folder_path, base_filename)
             if not os.path.exists(base_folder_path):
                 os.makedirs(base_folder_path)
-                print(f"Folder '{base_folder_path}' created")
 
           
             for file in files:
-                print(f"File: {file}")
                 source_file_path = os.path.join(folder_path, file)
                 destination_file_path = os.path.join(base_folder_path, file)
                 if not os.path.exists(destination_file_path):
-                    print(f"Moving file {file} to {base_folder_path}")
                     move(source_file_path, destination_file_path)
                 else:
                     print(f"File {file} already exists in {base_folder_path}")
