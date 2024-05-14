@@ -28,10 +28,9 @@ def test():
     for file in os.listdir(clothingPackFemaleStreamFolderPath):
         regex = re.search(r'\^([^_]+)_\d+', file)
         if regex:
-            print(regex, file)
             accessories[regex.group(1)] = regex.group(1)
 
-    print(accessories)
+    
     return accessories
 
 
@@ -49,9 +48,6 @@ def extract_items(model_path):
     for file in os.listdir(model_path):
         for key, accessory_folder in accessories.items():
             if f'^{key}' in file:
-                print(file)
-                print(key)
-                print(accessory_folder)
                 shutil.copy(os.path.join(model_path, file), os.path.join(model_path, accessory_folder))
 
 
@@ -65,7 +61,6 @@ def create_folder(directory_path, folder_name):
     new_model_folder = os.path.join(directory_path, folder_name)
     if not os.path.exists(new_model_folder):
         os.makedirs(new_model_folder)
-        print(f"Folder '{folder_name}' created")
     else:
         print(f"Folder '{folder_name}' already exists")
 
@@ -121,15 +116,11 @@ def FolderAttributionByTypeInOrgranizedFiles(organized_path):
     for file in os.listdir(organized_path):
         for key, accessory_folder in accessories.items():
             if f'^{key}' in file:
-                print(file)
-                print(key)
-                print(accessory_folder)
                 shutil.move(os.path.join(organized_path, file), os.path.join(organized_path, accessory_folder))
 
 
 def SortingFilesInCorrespondingFolderByNamesAndTypes(organized_path):
     for folder in os.listdir(organized_path):
-        print(folder)
         folder_path = os.path.join(organized_path, folder)
         file_tables = {}
         for file_name in os.listdir(folder_path):
@@ -146,8 +137,7 @@ def SortingFilesInCorrespondingFolderByNamesAndTypes(organized_path):
                 os.makedirs(base_folder_path)
                 print(f"Folder '{base_folder_path}' created")
 
-            print(f"Base filename: {base_filename}")
-            print("Files: ")
+          
             for file in files:
                 print(f"File: {file}")
                 source_file_path = os.path.join(folder_path, file)
@@ -158,19 +148,16 @@ def SortingFilesInCorrespondingFolderByNamesAndTypes(organized_path):
                 else:
                     print(f"File {file} already exists in {base_folder_path}")
 
-            print("---------------------------------------------------")
+            
 
 
 def delete_unecessarry_folders(organized_path):
     for folder in os.listdir(organized_path):
         folder_path = os.path.join(organized_path, folder)
-        print(folder)
-        print("***************************************")
         for subfolder in os.listdir(folder_path):
             if subfolder != "mp_f_freemode_01":
                 try:
                     shutil.rmtree(os.path.join(folder_path, subfolder))
-                    print("Deleted folder: " + subfolder)
                 except OSError as e:
                     print("Error: %s : %s" % (folder_path, e.strerror))
 
@@ -198,7 +185,6 @@ def clothesDistributionperAccs(organized_path, directory_path):
                             else:
                                 os.makedirs(destination_folder)
                                 folders[number] = destination_folder
-                            print(f"Folder '{destination_folder}' created")
 
                             destination_file = os.path.join(destination_folder, file)
                             source_file = os.path.join(os.path.join(folder_path, subfolder), file)
@@ -208,7 +194,6 @@ def clothesDistributionperAccs(organized_path, directory_path):
                                 shutil.copy(source_file, destination_file)
                             else:
                                 print(f"File {file} already exists in folder {destination_folder}")
-            print(subfolder)
 
 
 def updateFilesNumber(directory_path, subfolder, variable):
@@ -228,8 +213,6 @@ def updateFilesNumber(directory_path, subfolder, variable):
 
                 new_file_name = file.replace(original_digits, new_digits)
                 new_file_path = os.path.join(SF, new_file_name)
-                print("Original Digits" + original_digits)
-                print("New Digits" + new_digits)
                 shutil.move(filepath, new_file_path)
                 if original_digits in files_by_digits:
                     files_by_digits[original_digits].append(new_file_path)
@@ -259,13 +242,11 @@ def distributeClothes(directory_path, organized_path):
                     else:
                         os.makedirs(destination_folder)
                         folders[number] = destination_folder
-                        print(f"Folder '{destination_folder}' created")
 
                     destination_file = os.path.join(destination_folder, file_name)
                     source_file = os.path.join(organized_path, file_name)
 
                     if not os.path.exists(destination_file):
-                        print(f"Copying file: {file_name} to {destination_folder}")
                         move(source_file, destination_file)
                     else:
                         print(f"File {file_name} already exists in folder {destination_folder}")
